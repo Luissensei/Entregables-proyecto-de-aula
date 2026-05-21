@@ -1,0 +1,5 @@
+1|Carlos Ramírez|admin|admin123|ADMIN|0|Cartagena Centro|3001234567|true
+2|Ana González|vendedor1|vend123|VENDEDOR|1800000.0|Calle 5 #10-20|3109876543|true
+3|Pedro Martínez|vendedor2|vend456|VENDEDOR|1800000.0|Carrera 8 #3-15|3205551234|true
+4|Laura Torres|cliente1|cli123|CLIENTE|0.0|Av. Blas de Lezo #22|3157654321|true
+5|Diego Herrera|cliente2|cli456|CLIENTE|0.0|Calle 30 #5-40|3126543210|true
