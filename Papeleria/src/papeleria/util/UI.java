@@ -9,7 +9,6 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 public class UI {
-    // ── Paleta de colores ─────────────────────────────────────────
     public static final Color INK        = new Color(26, 26, 46);
     public static final Color INK_SOFT   = new Color(45, 45, 68);
     public static final Color CREAM      = new Color(245, 240, 232);
@@ -33,7 +32,6 @@ public class UI {
     public static final Color GRAY_400   = new Color(160, 174, 192);
     public static final Color GRAY_600   = new Color(74, 85, 104);
 
-    // ── Fuentes ───────────────────────────────────────────────────
     public static final Font F_TITLE    = new Font("Segoe UI", Font.BOLD, 22);
     public static final Font F_HEADING  = new Font("Segoe UI", Font.BOLD, 16);
     public static final Font F_SUBHEAD  = new Font("Segoe UI", Font.BOLD, 13);
@@ -43,13 +41,11 @@ public class UI {
     public static final Font F_LABEL    = new Font("Segoe UI", Font.BOLD, 11);
     public static final Font F_BIG_NUM  = new Font("Segoe UI", Font.BOLD, 28);
 
-    // ── Formato moneda COP ────────────────────────────────────────
     private static final NumberFormat NF = NumberFormat.getInstance(new Locale("es","CO"));
     static { NF.setMaximumFractionDigits(0); }
 
     public static String fmt(double v) { return "$" + NF.format(v); }
 
-    // ── Configuración global L&F ──────────────────────────────────
     public static void configurarLookAndFeel() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -65,7 +61,6 @@ public class UI {
         UIManager.put("OptionPane.buttonFont", F_BODY);
     }
 
-    // ── Botones ───────────────────────────────────────────────────
     public static JButton boton(String texto, Color fondo, Color texto2) {
         JButton btn = new JButton(texto) {
             @Override protected void paintComponent(Graphics g) {
@@ -100,7 +95,6 @@ public class UI {
     public static JButton botonInfo(String texto)     { return boton(texto, SKY, WHITE); }
     public static JButton botonGris(String texto)     { return boton(texto, GRAY_400, INK); }
 
-    // ── Campos de texto ───────────────────────────────────────────
     public static JTextField campo(String placeholder) {
         JTextField tf = new JTextField();
         tf.setFont(F_BODY);
@@ -123,7 +117,6 @@ public class UI {
         return pf;
     }
 
-    // ── Etiquetas ─────────────────────────────────────────────────
     public static JLabel label(String texto, Font fuente, Color color) {
         JLabel lbl = new JLabel(texto);
         lbl.setFont(fuente);
@@ -131,7 +124,6 @@ public class UI {
         return lbl;
     }
 
-    // ── Tarjeta estadística ───────────────────────────────────────
     public static JPanel tarjetaStat(String titulo, String valor, Color colorAcento) {
         JPanel card = new JPanel(new BorderLayout()) {
             @Override protected void paintComponent(Graphics g) {
@@ -176,7 +168,6 @@ public class UI {
         }
     }
 
-    // ── Tabla estilizada ──────────────────────────────────────────
     public static void estilizarTabla(JTable tabla) {
         tabla.setFont(F_BODY);
         tabla.setRowHeight(34);
@@ -201,7 +192,6 @@ public class UI {
         });
     }
 
-    // ── Panel con sombra ──────────────────────────────────────────
     public static JPanel panelTarjeta() {
         JPanel p = new JPanel() {
             @Override protected void paintComponent(Graphics g) {
@@ -216,19 +206,17 @@ public class UI {
         return p;
     }
 
-    // ── Separator decorativo ──────────────────────────────────────
     public static JSeparator separador() {
         JSeparator sep = new JSeparator();
         sep.setForeground(WARM);
         return sep;
     }
 
-    // ── Diálogo de mensaje ────────────────────────────────────────
     public static void exito(Component padre, String msg) {
-        JOptionPane.showMessageDialog(padre, msg, "✓ Éxito", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(padre, msg, "Exito", JOptionPane.INFORMATION_MESSAGE);
     }
     public static void error(Component padre, String msg) {
-        JOptionPane.showMessageDialog(padre, msg, "✗ Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(padre, msg, "Error", JOptionPane.ERROR_MESSAGE);
     }
     public static boolean confirmar(Component padre, String msg) {
         return JOptionPane.showConfirmDialog(padre, msg, "Confirmar",
