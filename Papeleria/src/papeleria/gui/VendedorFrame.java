@@ -18,25 +18,20 @@ public class VendedorFrame extends JFrame {
     private List<Producto> productos;
     private List<Venta> ventas;
 
-    // Tabla de inventario
     private DefaultTableModel modeloInventario;
     private JTable tablaInventario;
     private JTextField txtBuscar;
 
-    // Carrito
     private DefaultTableModel modeloCarrito;
     private JTable tablaCarrito;
 
-    // Totales
     private JLabel lblSubtotal, lblTotal, lblCambio;
     private JTextField txtEfectivo;
 
-    // Tipo de venta
     private JRadioButton rbMostrador, rbDomicilio;
     private JPanel panelDomicilio;
     private JTextField txtDireccion, txtTelefono;
 
-    // Venta actual
     private Venta ventaActual;
 
     public VendedorFrame(Usuario vendedor) {
@@ -52,7 +47,7 @@ public class VendedorFrame extends JFrame {
     }
 
     private void construirUI() {
-        setTitle("Papelería El Punto — Vendedor: " + vendedor.getNombre());
+        setTitle("Papeleria MAILETH - Vendedor: " + vendedor.getNombre());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1100, 680);
         setLocationRelativeTo(null);
@@ -61,10 +56,8 @@ public class VendedorFrame extends JFrame {
         JPanel root = new JPanel(new BorderLayout(0, 0));
         root.setBackground(UI.GRAY_100);
 
-        // ── Barra superior ────────────────────────────────────────
         root.add(crearBarra(), BorderLayout.NORTH);
 
-        // ── Cuerpo principal ──────────────────────────────────────
         JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
                 crearPanelProductos(), crearPanelCarrito());
         split.setDividerLocation(620);
@@ -76,19 +69,18 @@ public class VendedorFrame extends JFrame {
         setContentPane(root);
     }
 
-    // ── Barra superior ────────────────────────────────────────────
     private JPanel crearBarra() {
         JPanel barra = new JPanel(null);
         barra.setBackground(UI.INK);
         barra.setPreferredSize(new Dimension(1100, 56));
 
-        JLabel lblApp = UI.label("El Punto", new Font("Segoe UI", Font.BOLD, 18), UI.GOLD);
+        JLabel lblApp = UI.label("MAILETH", new Font("Segoe UI", Font.BOLD, 18), UI.GOLD);
         lblApp.setBounds(20, 16, 120, 24);
 
         JLabel lblVend = UI.label("Vendedor: " + vendedor.getNombre(), UI.F_BODY, UI.CREAM);
         lblVend.setBounds(160, 18, 300, 20);
 
-        JButton btnCerrar = UI.botonGris("Cerrar sesión");
+        JButton btnCerrar = UI.botonGris("Cerrar sesion");
         btnCerrar.setBounds(990, 12, 90, 32);
         btnCerrar.addActionListener(e -> {
             dispose();
@@ -99,18 +91,16 @@ public class VendedorFrame extends JFrame {
         return barra;
     }
 
-    // ── Panel de productos (izquierda) ────────────────────────────
     private JPanel crearPanelProductos() {
         JPanel p = new JPanel(new BorderLayout(0, 8));
         p.setBackground(UI.GRAY_100);
         p.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 6));
 
-        // Búsqueda
         JPanel busqueda = new JPanel(new BorderLayout(8, 0));
         busqueda.setOpaque(false);
         txtBuscar = UI.campo("");
         txtBuscar.setPreferredSize(new Dimension(200, 36));
-        txtBuscar.putClientProperty("placeholder", "Buscar por código o nombre...");
+        txtBuscar.putClientProperty("placeholder", "Buscar por codigo o nombre...");
         JButton btnBuscar = UI.botonPrimario("Buscar");
         btnBuscar.addActionListener(e -> filtrarProductos());
         txtBuscar.addActionListener(e -> filtrarProductos());
@@ -124,8 +114,7 @@ public class VendedorFrame extends JFrame {
         busqueda.add(txtBuscar, BorderLayout.CENTER);
         busqueda.add(btns, BorderLayout.EAST);
 
-        // Tabla inventario
-        String[] cols = {"Código", "Nombre", "Precio Venta", "Stock", "Estado"};
+        String[] cols = {"Codigo", "Nombre", "Precio Venta", "Stock", "Estado"};
         modeloInventario = new DefaultTableModel(cols, 0) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
         };
@@ -136,7 +125,6 @@ public class VendedorFrame extends JFrame {
         tablaInventario.getColumnModel().getColumn(3).setMaxWidth(70);
         tablaInventario.getColumnModel().getColumn(4).setMaxWidth(100);
 
-        // Doble clic → agregar al carrito
         tablaInventario.addMouseListener(new MouseAdapter() {
             @Override public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) agregarAlCarrito();
@@ -189,7 +177,6 @@ public class VendedorFrame extends JFrame {
         }
     }
 
-    // ── Panel carrito + pago (derecha) ────────────────────────────
     private JPanel crearPanelCarrito() {
         JPanel p = new JPanel(new BorderLayout(0, 8));
         p.setBackground(UI.GRAY_100);
@@ -197,7 +184,6 @@ public class VendedorFrame extends JFrame {
 
         JLabel lblTit = UI.label("Venta actual", UI.F_HEADING, UI.INK);
 
-        // Tipo de venta
         JPanel tipoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 4));
         tipoPanel.setOpaque(false);
         ButtonGroup bg = new ButtonGroup();
@@ -210,17 +196,15 @@ public class VendedorFrame extends JFrame {
         rbMostrador.addActionListener(e -> panelDomicilio.setVisible(false));
         tipoPanel.add(new JLabel("Tipo de venta:")); tipoPanel.add(rbMostrador); tipoPanel.add(rbDomicilio);
 
-        // Panel datos domicilio
         panelDomicilio = new JPanel(new GridLayout(2, 2, 8, 4));
         panelDomicilio.setOpaque(false);
         panelDomicilio.setVisible(false);
         txtDireccion = UI.campo(""); txtTelefono = UI.campo("");
-        panelDomicilio.add(UI.label("Dirección:", UI.F_LABEL, UI.GRAY_600));
+        panelDomicilio.add(UI.label("Direccion:", UI.F_LABEL, UI.GRAY_600));
         panelDomicilio.add(txtDireccion);
-        panelDomicilio.add(UI.label("Teléfono:", UI.F_LABEL, UI.GRAY_600));
+        panelDomicilio.add(UI.label("Telefono:", UI.F_LABEL, UI.GRAY_600));
         panelDomicilio.add(txtTelefono);
 
-        // Tabla carrito
         String[] cols = {"Producto", "Precio", "Cant", "Subtotal"};
         modeloCarrito = new DefaultTableModel(cols, 0) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
@@ -235,18 +219,16 @@ public class VendedorFrame extends JFrame {
         scrollCarrito.setBorder(BorderFactory.createLineBorder(UI.WARM, 1));
         scrollCarrito.setPreferredSize(new Dimension(400, 200));
 
-        // Botones carrito
         JPanel botonesCarrito = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 2));
         botonesCarrito.setOpaque(false);
         JButton btnAgregar  = UI.botonExito("+ Agregar");
-        JButton btnEliminar = UI.botonPeligro("− Quitar");
+        JButton btnEliminar = UI.botonPeligro("- Quitar");
         JButton btnVaciar   = UI.botonGris("Vaciar");
         btnAgregar.addActionListener(e -> agregarAlCarrito());
         btnEliminar.addActionListener(e -> quitarDelCarrito());
         btnVaciar.addActionListener(e -> vaciarCarrito());
         botonesCarrito.add(btnAgregar); botonesCarrito.add(btnEliminar); botonesCarrito.add(btnVaciar);
 
-        // Panel de totales
         JPanel totales = crearPanelTotales();
 
         JPanel cabecera = new JPanel(new BorderLayout(0, 4));
@@ -300,7 +282,6 @@ public class VendedorFrame extends JFrame {
         return p;
     }
 
-    // ── Lógica de venta ───────────────────────────────────────────
     private void agregarAlCarrito() {
         int fila = tablaInventario.getSelectedRow();
         if (fila < 0) { UI.error(this, "Selecciona un producto de la tabla"); return; }
@@ -311,14 +292,14 @@ public class VendedorFrame extends JFrame {
             UI.error(this, "Producto sin stock disponible"); return;
         }
 
-        String cantStr = UI.pedir(this, "¿Cuántas unidades de\n\"" + prod.getNombre() + "\"?");
+        String cantStr = UI.pedir(this, "Cuantas unidades de\n\"" + prod.getNombre() + "\"?");
         if (cantStr == null) return;
         int cantidad;
         try { cantidad = Integer.parseInt(cantStr.trim()); }
-        catch (NumberFormatException ex) { UI.error(this, "Cantidad inválida"); return; }
+        catch (NumberFormatException ex) { UI.error(this, "Cantidad invalida"); return; }
 
         if (cantidad <= 0 || cantidad > prod.getStock()) {
-            UI.error(this, "Cantidad inválida o supera el stock (" + prod.getStock() + ")"); return;
+            UI.error(this, "Cantidad invalida o supera el stock (" + prod.getStock() + ")"); return;
         }
 
         try {
@@ -339,7 +320,6 @@ public class VendedorFrame extends JFrame {
         int fila = tablaCarrito.getSelectedRow();
         if (fila < 0) return;
         DetalleVenta det = ventaActual.getDetalles().get(fila);
-        // Devolver stock
         Producto p = buscarProductoPorCodigo(det.getCodigoProducto());
         if (p != null) p.setStock(p.getStock() + det.getCantidad());
         ventaActual.getDetalles().remove(fila);
@@ -351,7 +331,7 @@ public class VendedorFrame extends JFrame {
 
     private void vaciarCarrito() {
         if (ventaActual.getDetalles().isEmpty()) return;
-        if (!UI.confirmar(this, "¿Vaciar el carrito?")) return;
+        if (!UI.confirmar(this, "Vaciar el carrito?")) return;
         for (DetalleVenta d : ventaActual.getDetalles()) {
             Producto p = buscarProductoPorCodigo(d.getCodigoProducto());
             if (p != null) p.setStock(p.getStock() + d.getCantidad());
@@ -380,13 +360,13 @@ public class VendedorFrame extends JFrame {
             lblCambio.setText("Cambio: " + UI.fmt(Math.max(0, cambio)));
             lblCambio.setForeground(cambio < 0 ? UI.DANGER : UI.SAGE);
         } catch (Exception ex) {
-            lblCambio.setText("Cambio: —");
+            lblCambio.setText("Cambio: --");
         }
     }
 
     private void cobrarVenta() {
         if (ventaActual.getDetalles().isEmpty()) {
-            UI.error(this, "El carrito está vacío"); return;
+            UI.error(this, "El carrito esta vacio"); return;
         }
         double ef;
         try { ef = Double.parseDouble(txtEfectivo.getText().replaceAll("[^0-9.]","")); }
@@ -403,7 +383,7 @@ public class VendedorFrame extends JFrame {
             String dir = txtDireccion.getText().trim();
             String tel = txtTelefono.getText().trim();
             if (dir.isEmpty() || tel.isEmpty()) {
-                UI.error(this, "Completa dirección y teléfono para domicilio"); return;
+                UI.error(this, "Completa direccion y telefono para domicilio"); return;
             }
             ventaActual.setDireccionDomicilio(dir);
             ventaActual.setTelefonoDomicilio(tel);
@@ -415,10 +395,8 @@ public class VendedorFrame extends JFrame {
         Persistencia.guardarVentas(ventas);
         Persistencia.guardarProductos(productos);
 
-        // Mostrar factura
         new FacturaFrame(ventaActual).setVisible(true);
 
-        // Reiniciar
         iniciarVenta();
         modeloCarrito.setRowCount(0);
         txtEfectivo.setText("");
